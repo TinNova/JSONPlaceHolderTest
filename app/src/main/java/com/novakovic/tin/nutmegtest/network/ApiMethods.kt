@@ -11,6 +11,9 @@ interface ApiMethods {
     @GET("posts")
     fun getPosts(): Single<List<PostModel>>
 
+    @GET("users")
+    fun getUsers(): Single<List<UserModel>>
+
     @GET("users/{userId}")
-    fun getUsers(@Path("userId") userId: Int): Single<UserModel>
+    fun getUser(@Path("userId") userId: Int): Single<UserModel>
 }

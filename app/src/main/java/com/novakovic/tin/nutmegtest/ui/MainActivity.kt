@@ -15,16 +15,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        viewModel.getPosts().subscribeBy(
-                onSuccess = {
-                    it
-                    getUser(2)
-                },
-                onError = { it.printStackTrace() })
-    }
-
-    private fun getUser(userId: Int) {
-        viewModel.getUsers(userId).subscribeBy(
+        viewModel.getSanatisedPosts().subscribeBy(
                 onSuccess = {
                     it
                 },
