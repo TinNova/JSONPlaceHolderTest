@@ -3,10 +3,11 @@ package com.novakovic.tin.nutmegtest.ui
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.view.View
 import com.novakovic.tin.nutmegtest.R
+import com.novakovic.tin.nutmegtest.gone
 import com.novakovic.tin.nutmegtest.model.UserPostModel
 import com.novakovic.tin.nutmegtest.ui.base.DisposingActivity
+import com.novakovic.tin.nutmegtest.visible
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -50,11 +51,11 @@ class MainActivity : DisposingActivity() {
 
     private fun setNoDataScreen(network: Boolean) {
         if (network) {
-            recyclerView.visibility = View.GONE
-            noNetworkMessages.visibility = View.VISIBLE
+            recyclerView.gone()
+            noNetworkMessages.visible()
         } else {
-            recyclerView.visibility = View.VISIBLE
-            noNetworkMessages.visibility = View.GONE
+            recyclerView.visible()
+            noNetworkMessages.gone()
         }
     }
 }
