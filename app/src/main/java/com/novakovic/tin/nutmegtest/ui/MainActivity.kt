@@ -3,6 +3,7 @@ package com.novakovic.tin.nutmegtest.ui
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import com.novakovic.tin.nutmegtest.R
 import com.novakovic.tin.nutmegtest.model.UserPostModel
 import com.novakovic.tin.nutmegtest.ui.base.DisposingActivity
@@ -19,13 +20,21 @@ class MainActivity : DisposingActivity() {
         setContentView(R.layout.activity_main)
 
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        getSanatisedPosts()
+        progressLoading.setOnClickListener { getSanatisedPosts() }
+        setupRecyclerView()
+    }
+
+    private fun getSanatisedPosts() {
         viewModel.getSanatisedPosts().subscribeBy(
                 onSuccess = {
                     setData(it)
+                    setNoDataScreen(false)
                 },
-                onError = { it.printStackTrace() })
-
-        setupRecyclerView()
+                onError = {
+                    it.printStackTrace()
+                    setNoDataScreen(true)
+                })
     }
 
     private fun setupRecyclerView() {
@@ -37,5 +46,15 @@ class MainActivity : DisposingActivity() {
 
     private fun setData(posts: MutableList<UserPostModel>) {
         postAdapter.setData(posts)
+    }
+
+    private fun setNoDataScreen(network: Boolean) {
+        if (network) {
+            recyclerView.visibility = View.GONE
+            noNetworkMessages.visibility = View.VISIBLE
+        } else {
+            recyclerView.visibility = View.VISIBLE
+            noNetworkMessages.visibility = View.GONE
+        }
     }
 }
