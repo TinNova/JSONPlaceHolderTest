@@ -1,12 +1,12 @@
 package com.novakovic.tin.nutmegtest.ui
 
 import android.arch.lifecycle.ViewModelProviders
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.novakovic.tin.nutmegtest.R
+import com.novakovic.tin.nutmegtest.ui.base.DisposingActivity
 import io.reactivex.rxkotlin.subscribeBy
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : DisposingActivity() {
 
     private lateinit var viewModel: MainViewModel
 
