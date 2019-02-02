@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    //Font sizes
+    <dimen name="medium_font">15sp</dimen>
+    <dimen name="small_font">12sp</dimen>
+
+    //Padding
+    <dimen name="small_padding">8dp</dimen>
+
+</resources>

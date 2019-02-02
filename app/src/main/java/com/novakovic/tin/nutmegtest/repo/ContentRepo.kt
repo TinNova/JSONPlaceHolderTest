@@ -33,16 +33,18 @@ class ContentRepo(private val apiMethods: ApiMethods) {
                 posts.forEach { post ->
                     val userId = post.userId
 
-                    users.forEach { user ->
-                        if (userId == user.id) {
-                            val userPostModel = UserPostModel(
-                                    userId = userId,
-                                    id = post.id,
-                                    title = post.title,
-                                    body = post.body,
-                                    username = user.username)
+                    if (userPosts.size < 10) {
+                        users.forEach { user ->
+                            if (userId == user.id) {
+                                val userPostModel = UserPostModel(
+                                        userId = userId,
+                                        id = post.id,
+                                        title = post.title,
+                                        body = post.body,
+                                        username = user.username)
 
-                            userPosts.add(userPostModel)
+                                userPosts.add(userPostModel)
+                            }
                         }
                     }
                 }
