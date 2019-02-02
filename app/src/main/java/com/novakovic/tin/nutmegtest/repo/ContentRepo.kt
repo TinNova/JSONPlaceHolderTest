@@ -11,11 +11,11 @@ import io.reactivex.schedulers.Schedulers
 
 class ContentRepo(private val apiMethods: ApiMethods) {
 
-    private fun getPosts(): Single<List<PostModel>> = apiMethods.getPosts()
+    fun getPosts(): Single<List<PostModel>> = apiMethods.getPosts()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
-    private fun getUsers(): Single<List<UserModel>> = apiMethods.getUsers()
+    fun getUsers(): Single<List<UserModel>> = apiMethods.getUsers()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
