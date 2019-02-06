@@ -1,15 +1,14 @@
 package com.novakovic.tin.nutmegtest.ui
 
-import android.app.Application
-import com.novakovic.tin.nutmegtest.NutmegTest
+import com.novakovic.tin.nutmegtest.NutmegTestApplication
 import com.novakovic.tin.nutmegtest.model.UserPostModel
 import com.novakovic.tin.nutmegtest.repo.ContentRepo
 import com.novakovic.tin.nutmegtest.ui.base.DisposingViewModel
 import io.reactivex.Single
+import javax.inject.Inject
 
-class MainViewModel(application: Application) : DisposingViewModel(application) {
-
-    private val contentRepo: ContentRepo = (application as NutmegTest).contentRepo
+class MainViewModel @Inject constructor(private val contentRepo: ContentRepo,
+        application: NutmegTestApplication) : DisposingViewModel(application) {
 
     fun getSanatisedPosts(): Single<MutableList<UserPostModel>> = contentRepo.getSanatisedPosts()
 

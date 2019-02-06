@@ -8,8 +8,9 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class ContentRepo(private val apiMethods: ApiMethods) {
+class ContentRepo @Inject constructor(private val apiMethods: ApiMethods) {
 
     fun getPosts(): Single<List<PostModel>> = apiMethods.getPosts()
             .subscribeOn(Schedulers.io())

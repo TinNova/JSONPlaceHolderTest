@@ -13,11 +13,15 @@ import org.mockito.MockitoAnnotations
 import junit.framework.Assert.assertEquals
 import org.mockito.junit.MockitoJUnitRunner
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 @RunWith(MockitoJUnitRunner::class)
 class ContentRepoUnitTest {
 
+    @Inject
     private lateinit var contentRepo: ContentRepo
+    @Inject
+    lateinit var apiMethods: ApiMethods
 
     @Before
     fun setup() {
@@ -26,10 +30,9 @@ class ContentRepoUnitTest {
     }
 
     private fun setupRepoWithMockedResponses() {
-        val apiMethods: ApiMethods = Mockito.mock(ApiMethods::class.java)
+        apiMethods = Mockito.mock(ApiMethods::class.java)
         Mockito.`when`(apiMethods.getPosts()).thenReturn(Single.just(testApiPostResponse))
         Mockito.`when`(apiMethods.getUsers()).thenReturn(Single.just(testApiUserResponse))
-
 
         contentRepo = ContentRepo(apiMethods)
     }
