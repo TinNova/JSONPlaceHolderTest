@@ -23,6 +23,8 @@ android {
 }
 
 dependencies {
+    def koinVersion = "1.0.2"
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:appcompat-v7:28.0.0'
@@ -50,5 +52,9 @@ dependencies {
     //RecyclerView & CardView Dependency
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'com.android.support:cardview-v7:28.0.0'
+    //Koin
+//    implementation "org.koin:koin-android:$koinVersion"
+    implementation "org.koin:koin-android-viewmodel:$koinVersion"
+    implementation "org.koin:koin-android-scope:$koinVersion"
 
 }

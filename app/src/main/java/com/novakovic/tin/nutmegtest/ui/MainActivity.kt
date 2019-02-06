@@ -1,6 +1,5 @@
 package com.novakovic.tin.nutmegtest.ui
 
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.novakovic.tin.nutmegtest.R
@@ -10,17 +9,17 @@ import com.novakovic.tin.nutmegtest.ui.base.DisposingActivity
 import com.novakovic.tin.nutmegtest.visible
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : DisposingActivity() {
 
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModel()
     private lateinit var postAdapter: PostAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         getSanatisedPosts()
         progressLoading.setOnClickListener { getSanatisedPosts() }
         setupRecyclerView()
