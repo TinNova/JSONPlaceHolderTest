@@ -16,3 +16,8 @@ The Espresso test checks if the RecyclerView is displayed, however what more int
 * Espresso w/Rx IdealingResource as testInstrumentationRunner
 * Unit Tests with Mockito
 * Sample of a Kotlin ViewExtension
+
+
+### Additional Branches
+* Koin - This includes Koin Dependency injection (but not in the tests)
+* Dagger 2 - This includes Dagger 2 in the app and tests
