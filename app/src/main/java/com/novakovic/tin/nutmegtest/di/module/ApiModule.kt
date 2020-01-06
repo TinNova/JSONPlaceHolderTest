@@ -1,27 +1,37 @@
-package com.novakovic.tin.nutmegtest.network
+package com.novakovic.tin.nutmegtest.di.module
 
 import com.novakovic.tin.nutmegtest.BASE_URL
 import com.novakovic.tin.nutmegtest.BuildConfig
 import com.novakovic.tin.nutmegtest.TIMEOUT_IN_SECONDS
+import com.novakovic.tin.nutmegtest.network.ApiInterface
+import dagger.Module
+import dagger.Provides
+import dagger.Reusable
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
-object ServiceProvider {
+@Module
+class ApiModule {
 
-    fun buildJsonPlaceHolderApi(): ApiInterface =
+    @Provides
+    @Reusable
+    fun providesRetrofit(okHttpClient: OkHttpClient): ApiInterface =
             Retrofit.Builder()
                     .baseUrl(BASE_URL)
-                    .client(buildOkHttpClient())
+                    .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build()
                     .create(ApiInterface::class.java)
 
-    private fun buildOkHttpClient(): OkHttpClient =
+    @Provides
+    @Reusable
+    fun providesOkHttpClient(): OkHttpClient =
             OkHttpClient.Builder()
                     .connectTimeout(TIMEOUT_IN_SECONDS, TimeUnit.SECONDS)
                     .writeTimeout(TIMEOUT_IN_SECONDS, TimeUnit.SECONDS)

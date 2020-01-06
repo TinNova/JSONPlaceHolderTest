@@ -3,23 +3,24 @@ package com.novakovic.tin.nutmegtest.repo
 import com.novakovic.tin.nutmegtest.model.PostModel
 import com.novakovic.tin.nutmegtest.model.UserModel
 import com.novakovic.tin.nutmegtest.model.UserPostModel
-import com.novakovic.tin.nutmegtest.network.ApiMethods
+import com.novakovic.tin.nutmegtest.network.ApiInterface
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class ContentRepo(private val apiMethods: ApiMethods) {
+class ContentRepo @Inject constructor(private val apiInterface: ApiInterface) {
 
-    fun getPosts(): Single<List<PostModel>> = apiMethods.getPosts()
+    fun getPosts(): Single<List<PostModel>> = apiInterface.getPosts()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
-    fun getUsers(): Single<List<UserModel>> = apiMethods.getUsers()
+    fun getUsers(): Single<List<UserModel>> = apiInterface.getUsers()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
-    fun getUser(userId: Int): Single<UserModel> = apiMethods.getUser(userId)
+    fun getUser(userId: Int): Single<UserModel> = apiInterface.getUser(userId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
