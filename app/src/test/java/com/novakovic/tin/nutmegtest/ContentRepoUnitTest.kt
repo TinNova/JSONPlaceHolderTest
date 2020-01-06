@@ -1,6 +1,6 @@
 package com.novakovic.tin.nutmegtest
 
-import com.novakovic.tin.nutmegtest.network.ApiMethods
+import com.novakovic.tin.nutmegtest.network.ApiInterface
 import com.novakovic.tin.nutmegtest.repo.ContentRepo
 import io.reactivex.Single
 import io.reactivex.android.plugins.RxAndroidPlugins
@@ -26,12 +26,12 @@ class ContentRepoUnitTest {
     }
 
     private fun setupRepoWithMockedResponses() {
-        val apiMethods: ApiMethods = Mockito.mock(ApiMethods::class.java)
-        Mockito.`when`(apiMethods.getPosts()).thenReturn(Single.just(testApiPostResponse))
-        Mockito.`when`(apiMethods.getUsers()).thenReturn(Single.just(testApiUserResponse))
+        val apiInterface: ApiInterface = Mockito.mock(ApiInterface::class.java)
+        Mockito.`when`(apiInterface.getPosts()).thenReturn(Single.just(testApiPostResponse))
+        Mockito.`when`(apiInterface.getUsers()).thenReturn(Single.just(testApiUserResponse))
 
 
-        contentRepo = ContentRepo(apiMethods)
+        contentRepo = ContentRepo(apiInterface)
     }
 
     @Test

@@ -4,15 +4,20 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.novakovic.tin.nutmegtest.R
+import com.novakovic.tin.nutmegtest.ViewModelFactory
 import com.novakovic.tin.nutmegtest.gone
 import com.novakovic.tin.nutmegtest.model.UserPostModel
 import com.novakovic.tin.nutmegtest.ui.base.DisposingActivity
 import com.novakovic.tin.nutmegtest.visible
+import dagger.android.AndroidInjection
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
 
 class MainActivity : DisposingActivity() {
 
+    @Inject
+    internal lateinit var viewModelFactory: ViewModelFactory<MainViewModel>
     private lateinit var viewModel: MainViewModel
     private lateinit var postAdapter: PostAdapter
 
@@ -20,7 +25,10 @@ class MainActivity : DisposingActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        AndroidInjection.inject(this)
+        viewModel = ViewModelProviders.of(this, viewModelFactory)
+                .get(MainViewModel::class.java)
+
         getSanatisedPosts()
         progressLoading.setOnClickListener { getSanatisedPosts() }
         setupRecyclerView()
