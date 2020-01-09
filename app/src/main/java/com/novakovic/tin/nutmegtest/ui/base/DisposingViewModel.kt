@@ -9,7 +9,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
 /**
- * Base ViewModel class which provides CompositeDisposable and is lifecycle aware for clearing subscriptions.
+ * Base/Abstract ViewModel class which provides CompositeDisposable and is lifecycle aware for clearing subscriptions.
  */
 abstract class DisposingViewModel(app: Application) : AndroidViewModel(app), LifecycleObserver {
 

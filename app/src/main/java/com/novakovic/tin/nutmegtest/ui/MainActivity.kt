@@ -1,16 +1,16 @@
 package com.novakovic.tin.nutmegtest.ui
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import com.novakovic.tin.nutmegtest.R
 import com.novakovic.tin.nutmegtest.ViewModelFactory
 import com.novakovic.tin.nutmegtest.gone
-import com.novakovic.tin.nutmegtest.model.UserPostModel
 import com.novakovic.tin.nutmegtest.ui.base.DisposingActivity
 import com.novakovic.tin.nutmegtest.visible
 import dagger.android.AndroidInjection
-import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -29,21 +29,38 @@ class MainActivity : DisposingActivity() {
         viewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(MainViewModel::class.java)
 
-        getSanatisedPosts()
-        progressLoading.setOnClickListener { getSanatisedPosts() }
+        viewModel.viewState.observe(this, Observer<MainViewState> {
+            it?.let { observe(it) }
+        })
+
+        viewModel.initView()
+
         setupRecyclerView()
+        loading_icon.setOnClickListener { viewModel.getSanatisedPosts() }
     }
 
-    private fun getSanatisedPosts() {
-        viewModel.getSanatisedPosts().subscribeBy(
-                onSuccess = {
-                    setData(it)
-                    setNoDataScreen(false)
-                },
-                onError = {
-                    it.printStackTrace()
-                    setNoDataScreen(true)
-                })
+    private fun observe(it: MainViewState) {
+        when (it.isDataReady) {
+            true -> showData(it.listData)
+            false -> hideData()
+        }
+        when (it.isLoading) {
+            true -> loading_icon.visible()
+            false -> loading_icon.gone()
+        }
+        when (it.isNetworkError) {
+            true -> network_error.visible()
+            false -> network_error.gone()
+        }
+    }
+
+    private fun showData(listData: List<MainActivityModel>) {
+        recyclerView.visible()
+        postAdapter.setData(listData)
+    }
+
+    private fun hideData() {
+        recyclerView.gone()
     }
 
     private fun setupRecyclerView() {
@@ -51,19 +68,5 @@ class MainActivity : DisposingActivity() {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = postAdapter
-    }
-
-    private fun setData(posts: MutableList<UserPostModel>) {
-        postAdapter.setData(posts)
-    }
-
-    private fun setNoDataScreen(network: Boolean) {
-        if (network) {
-            recyclerView.gone()
-            noNetworkMessages.visible()
-        } else {
-            recyclerView.visible()
-            noNetworkMessages.gone()
-        }
     }
 }

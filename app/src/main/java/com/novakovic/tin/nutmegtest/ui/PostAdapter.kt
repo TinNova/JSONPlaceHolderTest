@@ -10,9 +10,9 @@ import kotlinx.android.synthetic.main.item_list_posts.view.*
 
 class PostAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private var posts: MutableList<UserPostModel> = mutableListOf()
+    private var posts: List<MainActivityModel> = mutableListOf()
 
-    fun setData(data: MutableList<UserPostModel>) {
+    fun setData(data: List<MainActivityModel>) {
         posts = data
         notifyDataSetChanged()
     }
