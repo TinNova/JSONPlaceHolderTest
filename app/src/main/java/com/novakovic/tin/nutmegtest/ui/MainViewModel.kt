@@ -2,12 +2,9 @@ package com.novakovic.tin.nutmegtest.ui
 
 import android.app.Application
 import android.arch.lifecycle.MutableLiveData
-import com.novakovic.tin.nutmegtest.model.UserPostModel
 import com.novakovic.tin.nutmegtest.model.mapToMainViewUserModel
 import com.novakovic.tin.nutmegtest.repo.ContentRepo
 import com.novakovic.tin.nutmegtest.ui.base.DisposingViewModel
-import io.reactivex.Single
-import io.reactivex.rxkotlin.subscribeBy
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
@@ -16,30 +13,32 @@ class MainViewModel @Inject constructor(
 
     val viewState = MutableLiveData<MainViewState>()
 
+    // Forcing a default value into the viewState through an init block
     init {
-        viewState.value = MainViewState(listOf())
+        viewState.value = MainViewState()
     }
 
     fun initView() {
-        getSanatisedPosts()
+        getPosts()
     }
 
-    fun getSanatisedPosts() {
-        contentRepo.getSanatisedPosts().subscribeBy(
-                onSuccess = {
+    fun getPosts() {
+        add(contentRepo.getSanatisedPosts().subscribe(
+                {
                     viewState.value = viewState.value?.copy(
-                            listData = it.map {
-                                it.mapToMainViewUserModel()
-                            },
+                            listData = it.map { it.mapToMainViewUserModel() },
                             isLoading = false,
-                            isDataReady = true
+                            isDataReady = true,
+                            isNetworkError = false
                     )
                 },
-                onError = {
+                {
                     viewState.value = viewState.value?.copy(
                             isLoading = false,
-                            isDataReady = false
+                            isDataReady = false,
+                            isNetworkError = true
                     )
-                })
+                }
+        ))
     }
 }
